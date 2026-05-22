@@ -52,17 +52,19 @@ pipeline {
     }
 
     post {
+    success {
+        emailext(
+            to: 'mayur240307@gmail.com',
+            subject: 'Jenkins Build SUCCESS',
+            body: 'OTP Login App Pipeline Build Successful'
+        )
+    }
 
-        success {
-            mail to: 'mayur240307@gmail.com',
-            subject: 'OTP Login App Build Success',
-            body: 'Jenkins Build Successful'
-        }
-
-        failure {
-            mail to: 'mayur240307@gmail.com',
-            subject: 'OTP Login App Build Failed',
-            body: 'Jenkins Build Failed'
-        }
+    failure {
+        emailext(
+            to: 'mayur240307@gmail.com',
+            subject: 'Jenkins Build FAILED',
+            body: 'OTP Login App Pipeline Failed'
+        )
     }
 }
