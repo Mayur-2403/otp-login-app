@@ -1,217 +1,611 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>Anime OTP Login</title>
-
-    <style>
-
-        *{
-            margin:0;
-            padding:0;
-            box-sizing:border-box;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        body{
-
-            height:100vh;
-
-            display:flex;
-            justify-content:center;
-            align-items:center;
-
-            background-image:url('https://wallpapercave.com/wp/wp5128415.jpg');
-
-            background-size:cover;
-            background-position:center;
-
-            overflow:hidden;
-        }
-
-        body::before{
-
-            content:'';
-
-            position:absolute;
-
-            width:100%;
-            height:100%;
-
-            background:rgba(0,0,0,0.55);
-            backdrop-filter:blur(4px);
-        }
-
-        .container{
-
-            position:relative;
-
-            width:400px;
-
-            padding:45px;
-
-            border-radius:20px;
-
-            background:rgba(255,255,255,0.08);
-
-            border:1px solid rgba(255,255,255,0.2);
-
-            backdrop-filter:blur(15px);
-
-            box-shadow:0 0 30px rgba(0,0,0,0.6);
-
-            text-align:center;
-
-            color:white;
-
-            animation:fadeIn 1s ease;
-        }
-
-        @keyframes fadeIn{
-
-            from{
-                opacity:0;
-                transform:translateY(30px);
-            }
-
-            to{
-                opacity:1;
-                transform:translateY(0);
-            }
-        }
-
-        .logo{
-
-            font-size:38px;
-            margin-bottom:10px;
-        }
-
-        h1{
-
-            margin-bottom:8px;
-            color:#ff66c4;
-            font-size:32px;
-        }
-
-        .subtitle{
-
-            margin-bottom:30px;
-            color:#ddd;
-            font-size:14px;
-        }
-
-        .input-box{
-
-            margin-bottom:20px;
-        }
-
-        input{
-
-            width:100%;
-
-            padding:14px;
-
-            border:none;
-
-            border-radius:12px;
-
-            outline:none;
-
-            background:rgba(255,255,255,0.15);
-
-            color:white;
-
-            font-size:15px;
-        }
-
-        input::placeholder{
-            color:#ddd;
-        }
-
-        button{
-
-            width:100%;
-
-            padding:14px;
-
-            border:none;
-
-            border-radius:12px;
-
-            background:linear-gradient(45deg,#ff4da6,#7f5cff);
-
-            color:white;
-
-            font-size:16px;
-
-            font-weight:bold;
-
-            cursor:pointer;
-
-            transition:0.3s;
-        }
-
-        button:hover{
-
-            transform:scale(1.03);
-
-            box-shadow:0 0 15px #ff4da6;
-        }
-
-        .footer{
-
-            margin-top:20px;
-
-            font-size:13px;
-
-            color:#ccc;
-        }
-
-    </style>
-
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>F1 Portal — Red Bull Racing</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --red:   #e10600;
+    --dark:  #07090f;
+    --panel: rgba(8, 10, 18, 0.92);
+    --card:  rgba(255,255,255,0.04);
+    --border: rgba(255,255,255,0.08);
+    --text:  #f0f0f0;
+    --muted: #888;
+    --gold:  #f7c948;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Barlow', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw;
+    height: 64px;
+    background: rgba(7,9,15,0.85);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 26px; font-weight: 900;
+    letter-spacing: 3px;
+    color: #fff;
+  }
+  .logo span { color: var(--red); }
+
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 14px; font-weight: 600;
+    letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); text-decoration: none;
+    transition: color .2s;
+  }
+  .nav-links a:hover { color: #fff; }
+
+  .nav-cta {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    padding: 9px 22px;
+    background: var(--red); color: #fff;
+    border-radius: 4px;
+    transition: background .2s, transform .15s;
+  }
+  .nav-cta:hover { background: #ff2020; transform: translateY(-1px); }
+
+  /* ─── HERO ─── */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: flex-start;
+    padding: 0 8vw;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      linear-gradient(105deg, rgba(7,9,15,0.97) 38%, rgba(7,9,15,0.35) 100%),
+      url('https://www.image2url.com/r2/default/images/1779604980710-5592771e-fd37-495d-a7d8-bc900f632c0e.avif') center/cover no-repeat;
+  }
+
+  .hero-stripe {
+    position: absolute; top: 0; left: 0;
+    width: 6px; height: 100%;
+    background: var(--red);
+    z-index: 1;
+  }
+
+  .hero-tag {
+    position: relative; z-index: 2;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--red);
+    margin-bottom: 20px;
+  }
+
+  h1.hero-title {
+    position: relative; z-index: 2;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(64px, 9vw, 120px);
+    font-weight: 900; line-height: .92;
+    letter-spacing: -1px;
+    color: #fff;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  h1.hero-title em { color: var(--red); font-style: normal; }
+
+  .hero-desc {
+    position: relative; z-index: 2;
+    font-size: 17px; font-weight: 300; line-height: 1.7;
+    color: #aaa; max-width: 460px; margin-bottom: 44px;
+  }
+
+  .hero-btns { position: relative; z-index: 2; display: flex; gap: 16px; flex-wrap: wrap; }
+
+  .btn-primary {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    padding: 15px 36px;
+    background: var(--red); color: #fff;
+    border-radius: 4px;
+    border: none; cursor: pointer;
+    transition: background .2s, transform .15s, box-shadow .2s;
+  }
+  .btn-primary:hover {
+    background: #ff2020; transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(225,6,0,.45);
+  }
+
+  .btn-outline {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; text-decoration: none;
+    padding: 15px 36px;
+    background: transparent; color: #fff;
+    border: 1px solid rgba(255,255,255,0.22);
+    border-radius: 4px; cursor: pointer;
+    transition: border-color .2s, background .2s;
+  }
+  .btn-outline:hover { border-color: rgba(255,255,255,0.6); background: rgba(255,255,255,0.06); }
+
+  /* Hero stats bar */
+  .hero-stats {
+    position: absolute; bottom: 0; left: 0; right: 0; z-index: 2;
+    display: flex;
+    border-top: 1px solid var(--border);
+    background: rgba(7,9,15,0.8);
+    backdrop-filter: blur(8px);
+  }
+  .stat-item {
+    flex: 1; padding: 24px 0;
+    display: flex; flex-direction: column; align-items: center;
+    border-right: 1px solid var(--border);
+  }
+  .stat-item:last-child { border-right: none; }
+  .stat-num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 38px; font-weight: 900;
+    color: #fff; line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-num span { color: var(--red); }
+  .stat-label {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+  }
+
+  /* ─── SECTION SHARED ─── */
+  section { padding: 100px 8vw; }
+  .section-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 12px; font-weight: 700; letter-spacing: 4px;
+    text-transform: uppercase; color: var(--red);
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(36px, 5vw, 56px); font-weight: 900;
+    text-transform: uppercase; line-height: .95;
+    color: #fff; margin-bottom: 48px;
+  }
+
+  /* ─── STANDINGS ─── */
+  #standings { background: #060810; }
+
+  .standings-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 40px;
+  }
+
+  .standings-block h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border); padding-bottom: 10px;
+  }
+
+  .driver-row {
+    display: flex; align-items: center; gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--border);
+    transition: background .15s;
+  }
+  .driver-row:hover { background: var(--card); padding-left: 10px; border-radius: 4px; }
+  .driver-row:last-child { border-bottom: none; }
+
+  .pos {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px; font-weight: 900; width: 28px; text-align: center;
+    color: var(--muted);
+  }
+  .pos.gold { color: var(--gold); }
+  .pos.silver { color: #c8c8c8; }
+  .pos.bronze { color: #cd7f32; }
+
+  .driver-color {
+    width: 4px; height: 36px; border-radius: 2px; flex-shrink: 0;
+  }
+
+  .driver-info { flex: 1; }
+  .driver-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 17px; font-weight: 700; letter-spacing: .5px;
+    text-transform: uppercase;
+  }
+  .driver-team { font-size: 12px; color: var(--muted); margin-top: 2px; }
+
+  .driver-pts {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 900; color: #fff;
+  }
+  .pts-label { font-size: 11px; color: var(--muted); }
+
+  /* ─── SCHEDULE ─── */
+  #schedule { background: var(--dark); }
+
+  .race-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .race-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 8px; padding: 24px;
+    position: relative; overflow: hidden;
+    transition: border-color .2s, transform .2s;
+  }
+  .race-card:hover { border-color: rgba(225,6,0,.4); transform: translateY(-3px); }
+  .race-card.next { border-color: var(--red); }
+  .race-card.next::before {
+    content: 'NEXT RACE';
+    position: absolute; top: 14px; right: 14px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    color: var(--red); background: rgba(225,6,0,.12);
+    padding: 4px 10px; border-radius: 3px;
+  }
+
+  .race-flag {
+    font-size: 32px; margin-bottom: 12px;
+    display: block;
+  }
+  .race-round {
+    font-size: 11px; font-weight: 600; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 6px;
+  }
+  .race-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 800; text-transform: uppercase;
+    color: #fff; margin-bottom: 4px; line-height: 1;
+  }
+  .race-circuit { font-size: 13px; color: var(--muted); margin-bottom: 16px; }
+  .race-date {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 700; letter-spacing: 1px;
+    color: var(--red);
+  }
+
+  /* ─── AUTH ─── */
+  #login {
+    background: #060810;
+    display: flex; gap: 80px; align-items: center;
+  }
+
+  .auth-left { flex: 1; }
+  .auth-left p {
+    font-size: 16px; color: #999; line-height: 1.8;
+    max-width: 420px;
+  }
+
+  .auth-box {
+    flex: 0 0 420px;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 44px 40px;
+  }
+
+  .auth-box h2 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px; font-weight: 900; text-transform: uppercase;
+    letter-spacing: 2px; color: #fff; margin-bottom: 6px;
+  }
+  .auth-sub { font-size: 14px; color: var(--muted); margin-bottom: 32px; }
+
+  .field-label {
+    font-size: 12px; font-weight: 600; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted);
+    margin-bottom: 8px; display: block;
+  }
+
+  .auth-input {
+    width: 100%; padding: 14px 18px;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    color: #fff; font-family: 'Barlow', sans-serif; font-size: 15px;
+    outline: none; transition: border-color .2s, box-shadow .2s;
+    margin-bottom: 20px;
+  }
+  .auth-input::placeholder { color: #444; }
+  .auth-input:focus {
+    border-color: var(--red);
+    box-shadow: 0 0 0 3px rgba(225,6,0,.15);
+  }
+
+  .auth-btn {
+    width: 100%; padding: 15px;
+    background: var(--red); color: #fff;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 16px; font-weight: 800; letter-spacing: 3px;
+    text-transform: uppercase;
+    border: none; border-radius: 6px; cursor: pointer;
+    transition: background .2s, transform .15s, box-shadow .2s;
+  }
+  .auth-btn:hover {
+    background: #ff2020; transform: translateY(-2px);
+    box-shadow: 0 6px 24px rgba(225,6,0,.4);
+  }
+
+  .auth-footer { margin-top: 20px; font-size: 12px; color: #555; text-align: center; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: #040508;
+    border-top: 1px solid var(--border);
+    padding: 32px 8vw;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px; font-weight: 900; letter-spacing: 3px; color: #fff;
+  }
+  .footer-logo span { color: var(--red); }
+  .footer-copy { font-size: 12px; color: #444; }
+  .footer-tech {
+    font-size: 11px; letter-spacing: 1px; color: #333;
+  }
+  .footer-tech span { color: #555; margin: 0 4px; }
+
+  /* ─── TICKER ─── */
+  .ticker {
+    background: var(--red);
+    overflow: hidden;
+    white-space: nowrap;
+    padding: 9px 0;
+  }
+  .ticker-inner {
+    display: inline-block;
+    animation: ticker 28s linear infinite;
+  }
+  .ticker-inner span {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 2px;
+    text-transform: uppercase; color: #fff;
+    padding: 0 48px;
+  }
+  @keyframes ticker {
+    0%   { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ─── SCROLL FADE ─── */
+  .fade-in { opacity: 0; transform: translateY(24px); transition: opacity .6s, transform .6s; }
+  .fade-in.visible { opacity: 1; transform: none; }
+</style>
 </head>
-
 <body>
 
-    <div class="container">
+<!-- NAV -->
+<nav>
+  <div class="logo">F1 <span>PORTAL</span></div>
+  <div class="nav-links">
+    <a href="#standings">Standings</a>
+    <a href="#schedule">Calendar</a>
+    <a href="#login">Login</a>
+  </div>
+  <a href="#login" class="nav-cta">Get Access</a>
+</nav>
 
-        <div class="logo">
-            🌸
-        </div>
+<!-- TICKER -->
+<div style="margin-top:64px" class="ticker">
+  <div class="ticker-inner">
+    <span>🏁 Monaco GP — Leclerc P1</span>
+    <span>⚡ Verstappen leads championship by 43 pts</span>
+    <span>🔧 Red Bull fastest pit: 1.8s</span>
+    <span>🏆 2025 Constructors: Red Bull Racing leads</span>
+    <span>🚩 Next: Canadian Grand Prix — Montréal</span>
+    <span>🏁 Monaco GP — Leclerc P1</span>
+    <span>⚡ Verstappen leads championship by 43 pts</span>
+    <span>🔧 Red Bull fastest pit: 1.8s</span>
+    <span>🏆 2025 Constructors: Red Bull Racing leads</span>
+    <span>🚩 Next: Canadian Grand Prix — Montréal</span>
+  </div>
+</div>
 
-        <h1>AnimeVerse</h1>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-stripe"></div>
+  <div class="hero-tag">Oracle Red Bull Racing</div>
+  <h1 class="hero-title">The <em>Fastest</em><br>On Earth</h1>
+  <p class="hero-desc">Track every lap, every split, every championship point. Your official access portal to Formula 1 data, standings, and live race intelligence.</p>
+  <div class="hero-btns">
+    <a href="#login" class="btn-primary">Access Portal</a>
+    <a href="#standings" class="btn-outline">View Standings</a>
+  </div>
+  <div class="hero-stats">
+    <div class="stat-item"><div class="stat-num">7<span>×</span></div><div class="stat-label">WDC Titles</div></div>
+    <div class="stat-item"><div class="stat-num">6<span>×</span></div><div class="stat-label">WCC Titles</div></div>
+    <div class="stat-item"><div class="stat-num">24</div><div class="stat-label">Race Calendar</div></div>
+    <div class="stat-item"><div class="stat-num">20</div><div class="stat-label">Active Drivers</div></div>
+    <div class="stat-item"><div class="stat-num">10</div><div class="stat-label">Teams</div></div>
+  </div>
+</section>
 
-        <p class="subtitle">
-            Login using OTP to enter the Anime World
-        </p>
-
-        <form action="/sendOtp" method="post">
-
-            <div class="input-box">
-
-                <input type="email"
-                       name="email"
-                       placeholder="Enter your email"
-                       required>
-
-            </div>
-
-            <button type="submit">
-                Send OTP
-            </button>
-
-        </form>
-
-        <p class="footer">
-            Powered by Spring Boot • Docker • Jenkins CI/CD
-        </p>
-
+<!-- STANDINGS -->
+<section id="standings">
+  <div class="section-tag fade-in">2025 Season</div>
+  <div class="section-title fade-in">Championship<br>Standings</div>
+  <div class="standings-grid fade-in">
+    <div class="standings-block">
+      <h3>Drivers</h3>
+      <div class="driver-row">
+        <div class="pos gold">1</div>
+        <div class="driver-color" style="background:#3671C6"></div>
+        <div class="driver-info"><div class="driver-name">Max Verstappen</div><div class="driver-team">Red Bull Racing</div></div>
+        <div><div class="driver-pts">295</div><div class="pts-label">PTS</div></div>
+      </div>
+      <div class="driver-row">
+        <div class="pos silver">2</div>
+        <div class="driver-color" style="background:#E8002D"></div>
+        <div class="driver-info"><div class="driver-name">Lando Norris</div><div class="driver-team">McLaren</div></div>
+        <div><div class="driver-pts">252</div><div class="pts-label">PTS</div></div>
+      </div>
+      <div class="driver-row">
+        <div class="pos bronze">3</div>
+        <div class="driver-color" style="background:#E8002D"></div>
+        <div class="driver-info"><div class="driver-name">Oscar Piastri</div><div class="driver-team">McLaren</div></div>
+        <div><div class="driver-pts">218</div><div class="pts-label">PTS</div></div>
+      </div>
+      <div class="driver-row">
+        <div class="pos">4</div>
+        <div class="driver-color" style="background:#DC0000"></div>
+        <div class="driver-info"><div class="driver-name">Charles Leclerc</div><div class="driver-team">Ferrari</div></div>
+        <div><div class="driver-pts">188</div><div class="pts-label">PTS</div></div>
+      </div>
+      <div class="driver-row">
+        <div class="pos">5</div>
+        <div class="driver-color" style="background:#DC0000"></div>
+        <div class="driver-info"><div class="driver-name">Carlos Sainz</div><div class="driver-team">Williams</div></div>
+        <div><div class="driver-pts">149</div><div class="pts-label">PTS</div></div>
+      </div>
     </div>
+    <div class="standings-block">
+      <h3>Constructors</h3>
+      <div class="driver-row">
+        <div class="pos gold">1</div>
+        <div class="driver-color" style="background:#3671C6"></div>
+        <div class="driver-info"><div class="driver-name">Red Bull Racing</div><div class="driver-team">Honda RBPT</div></div>
+        <div><div class="driver-pts">479</div><div class="pts-label">PTS</div></div>
+      </div>
+      <div class="driver-row">
+        <div class="pos silver">2</div>
+        <div class="driver-color" style="background:#E8002D"></div>
+        <div class="driver-info"><div class="driver-name">McLaren</div><div class="driver-team">Mercedes</div></div>
+        <div><div class="driver-pts">470</div><div class="pts-label">PTS</div></div>
+      </div>
+      <div class="driver-row">
+        <div class="pos bronze">3</div>
+        <div class="driver-color" style="background:#DC0000"></div>
+        <div class="driver-info"><div class="driver-name">Ferrari</div><div class="driver-team">Ferrari</div></div>
+        <div><div class="driver-pts">388</div><div class="pts-label">PTS</div></div>
+      </div>
+      <div class="driver-row">
+        <div class="pos">4</div>
+        <div class="driver-color" style="background:#00A19C"></div>
+        <div class="driver-info"><div class="driver-name">Mercedes</div><div class="driver-team">Mercedes</div></div>
+        <div><div class="driver-pts">271</div><div class="pts-label">PTS</div></div>
+      </div>
+      <div class="driver-row">
+        <div class="pos">5</div>
+        <div class="driver-color" style="background:#006F62"></div>
+        <div class="driver-info"><div class="driver-name">Aston Martin</div><div class="driver-team">Mercedes</div></div>
+        <div><div class="driver-pts">89</div><div class="pts-label">PTS</div></div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- SCHEDULE -->
+<section id="schedule">
+  <div class="section-tag fade-in">Race Calendar</div>
+  <div class="section-title fade-in">Upcoming<br>Grands Prix</div>
+  <div class="race-cards fade-in">
+    <div class="race-card next">
+      <span class="race-flag">🇨🇦</span>
+      <div class="race-round">Round 09</div>
+      <div class="race-name">Canadian GP</div>
+      <div class="race-circuit">Circuit Gilles Villeneuve · Montréal</div>
+      <div class="race-date">8–10 August 2025</div>
+    </div>
+    <div class="race-card">
+      <span class="race-flag">🇦🇹</span>
+      <div class="race-round">Round 10</div>
+      <div class="race-name">Austrian GP</div>
+      <div class="race-circuit">Red Bull Ring · Spielberg</div>
+      <div class="race-date">27–29 June 2025</div>
+    </div>
+    <div class="race-card">
+      <span class="race-flag">🇬🇧</span>
+      <div class="race-round">Round 11</div>
+      <div class="race-name">British GP</div>
+      <div class="race-circuit">Silverstone Circuit · Northamptonshire</div>
+      <div class="race-date">4–6 July 2025</div>
+    </div>
+    <div class="race-card">
+      <span class="race-flag">🇭🇺</span>
+      <div class="race-round">Round 12</div>
+      <div class="race-name">Hungarian GP</div>
+      <div class="race-circuit">Hungaroring · Budapest</div>
+      <div class="race-date">18–20 July 2025</div>
+    </div>
+  </div>
+</section>
+
+<!-- LOGIN -->
+<section id="login">
+  <div class="auth-left fade-in">
+    <div class="section-tag">Authentication</div>
+    <div class="section-title" style="margin-bottom:20px">Portal<br>Access</div>
+    <p>Log in to access live telemetry, real-time timing data, pit wall communications, and exclusive team analytics. One-time passcode sent directly to your registered email.</p>
+    <div style="margin-top:40px; display:flex; gap:16px; flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:14px 20px;">
+        <span style="font-size:22px">⚡</span>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Live Data</div>
+          <div style="font-size:12px;color:var(--muted)">Real-time telemetry</div>
+        </div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;background:rgba(255,255,255,0.04);border:1px solid var(--border);border-radius:6px;padding:14px 20px;">
+        <span style="font-size:22px">🏆</span>
+        <div>
+          <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;">Championship</div>
+          <div style="font-size:12px;color:var(--muted)">Full standings history</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="auth-box fade-in">
+    <h2>Sign In</h2>
+    <div class="auth-sub">Enter your credentials to authenticate</div>
+    <form action="/sendOtp" method="post">
+      <label class="field-label">Email Address</label>
+      <input class="auth-input" type="email" name="email" placeholder="your@gmail.com" required>
+      <button class="auth-btn" type="submit">Send OTP →</button>
+    </form>
+    <div class="auth-footer">
+      Powered by Spring Boot · Maven · Docker · Jenkins
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">F1 <span>PORTAL</span></div>
+  <div class="footer-copy">© 2025 Oracle Red Bull Racing. All rights reserved.</div>
+  <div class="footer-tech">Spring Boot<span>·</span>Maven<span>·</span>Docker<span>·</span>Jenkins</div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.fade-in').forEach(el => obs.observe(el));
+</script>
 </body>
-
 </html>

@@ -1,56 +1,210 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Result — F1 Portal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;600;700;900&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
-    <meta charset="UTF-8">
+  body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #07090f;
+    font-family: 'Barlow', sans-serif;
+    overflow: hidden;
+    position: relative;
+  }
 
-    <title>Result</title>
+  /* Red glow top-right */
+  body::before {
+    content: '';
+    position: fixed; top: -180px; right: -180px;
+    width: 560px; height: 560px;
+    background: radial-gradient(circle, rgba(225,6,0,0.13) 0%, transparent 70%);
+    pointer-events: none;
+  }
 
-    <style>
+  /* Blue glow bottom-left */
+  body::after {
+    content: '';
+    position: fixed; bottom: -180px; left: -180px;
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(20,40,110,0.18) 0%, transparent 70%);
+    pointer-events: none;
+  }
 
-        body{
+  /* Speed lines */
+  .speedlines {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0; overflow: hidden;
+  }
+  .speedlines span {
+    position: absolute; height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(225,6,0,0.2), transparent);
+    animation: speedline 3.2s linear infinite; opacity: 0;
+  }
+  .speedlines span:nth-child(1) { top: 10%; width: 30%; animation-delay: 0s;   animation-duration: 2.8s; }
+  .speedlines span:nth-child(2) { top: 28%; width: 18%; animation-delay: 0.7s; animation-duration: 3.3s; }
+  .speedlines span:nth-child(3) { top: 45%; width: 42%; animation-delay: 1.2s; animation-duration: 2.6s; }
+  .speedlines span:nth-child(4) { top: 60%; width: 25%; animation-delay: 0.4s; animation-duration: 3.5s; }
+  .speedlines span:nth-child(5) { top: 75%; width: 36%; animation-delay: 1.8s; animation-duration: 2.9s; }
+  .speedlines span:nth-child(6) { top: 88%; width: 20%; animation-delay: 1.0s; animation-duration: 3.1s; }
+  @keyframes speedline {
+    0%   { transform: translateX(-100%); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateX(200vw); opacity: 0; }
+  }
 
-            display:flex;
-            justify-content:center;
-            align-items:center;
+  /* Top nav bar */
+  .top-bar {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 10;
+    height: 60px;
+    display: flex; align-items: center; padding: 0 5vw;
+    background: rgba(7,9,15,0.9);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    backdrop-filter: blur(12px);
+  }
+  .logo {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 900; letter-spacing: 3px;
+    color: #fff; text-decoration: none;
+  }
+  .logo span { color: #e10600; }
 
-            height:100vh;
+  /* Left red stripe */
+  .side-stripe {
+    position: fixed; left: 0; top: 0; bottom: 0;
+    width: 5px; background: #e10600; z-index: 10;
+  }
 
-            background:#111827;
+  /* Card */
+  .card {
+    position: relative; z-index: 5;
+    width: 480px;
+    background: rgba(10,12,22,0.95);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-top: 3px solid #e10600;
+    border-radius: 4px 4px 12px 12px;
+    padding: 52px 48px 48px;
+    box-shadow: 0 24px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(225,6,0,0.06);
+    text-align: center;
+    animation: cardIn .5s cubic-bezier(.22,.68,0,1.2) both;
+  }
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(28px) scale(0.97); }
+    to   { opacity: 1; transform: none; }
+  }
 
-            color:white;
+  /* Icon circle */
+  .icon-ring {
+    width: 80px; height: 80px; border-radius: 50%;
+    background: rgba(225,6,0,0.1);
+    border: 2px solid rgba(225,6,0,0.3);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 28px;
+    font-size: 36px;
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(225,6,0,0.25); }
+    50%       { box-shadow: 0 0 0 12px rgba(225,6,0,0); }
+  }
 
-            font-family:Arial;
-        }
+  /* Tag above message */
+  .result-tag {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 11px; font-weight: 700; letter-spacing: 4px;
+    text-transform: uppercase; color: #e10600;
+    margin-bottom: 14px;
+  }
 
-        .box{
+  /* The Thymeleaf message */
+  .result-message {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px; font-weight: 900;
+    text-transform: uppercase; letter-spacing: 1px;
+    color: #fff; line-height: 1.1;
+    margin-bottom: 12px;
+  }
 
-            padding:40px;
+  .result-sub {
+    font-size: 14px; color: #555; line-height: 1.7;
+    margin-bottom: 36px;
+  }
 
-            border-radius:20px;
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+    margin-bottom: 32px;
+  }
 
-            background:#1f2937;
+  /* Back button */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 15px; font-weight: 800; letter-spacing: 3px;
+    text-transform: uppercase; text-decoration: none;
+    padding: 14px 32px;
+    background: #e10600; color: #fff;
+    border-radius: 6px;
+    transition: background .2s, transform .15s, box-shadow .2s;
+    width: 100%; justify-content: center;
+  }
+  .back-btn:hover {
+    background: #ff2020;
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(225,6,0,0.45);
+  }
 
-            text-align:center;
-        }
-
-        h1{
-            color:#ff66c4;
-        }
-
-    </style>
-
+  /* Bottom branding */
+  .bottom-brand {
+    margin-top: 28px; z-index: 5;
+    font-size: 11px; color: #222; letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+</style>
 </head>
-
 <body>
 
-    <div class="box">
+<div class="speedlines">
+  <span></span><span></span><span></span>
+  <span></span><span></span><span></span>
+</div>
 
-        <h1 th:text="${message}"></h1>
+<div class="side-stripe"></div>
 
-    </div>
+<div class="top-bar">
+  <a href="/" class="logo">F1 <span>PORTAL</span></a>
+</div>
+
+<div class="card">
+  <div class="icon-ring">🏁</div>
+
+  <div class="result-tag">System Message</div>
+
+  <div class="result-message" th:text="${message}">
+    Authentication Result
+  </div>
+
+  <p class="result-sub">
+    Your request has been processed by the Oracle Red Bull Racing portal.
+  </p>
+
+  <div class="divider"></div>
+
+  <a href="/" class="back-btn">
+    ← Return to Portal
+  </a>
+</div>
+
+<div class="bottom-brand">Oracle Red Bull Racing · Powered by Spring Boot</div>
 
 </body>
-
 </html>
